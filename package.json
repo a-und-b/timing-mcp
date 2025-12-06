@@ -1,26 +1,65 @@
 {
-  "name": "timing-mcp-server",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "build": "tsc",
-    "lint": "eslint src/**/*.ts",
-    "prepare": "npm run build",
-    "start": "npm run build:live",
-    "build:live": "nodemon --watch 'src/**/*.ts' --exec \"ts-node\" src/index.ts"
+  "name": "@a-und-b/timing-mcp",
+  "version": "1.0.1",
+  "description": "Model Context Protocol (MCP) server for Timing: time tracking, project management, and productivity insights",
+  "main": "dist/index.js",
+  "bin": {
+    "timing-mcp": "dist/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "npm run clean && esbuild src/index.ts --bundle --platform=node --target=node18 --format=esm --outfile=dist/index.js --external:@modelcontextprotocol/sdk --external:timing-api-client --external:zod --external:zod-to-json-schema",
+    "clean": "rm -rf dist && mkdir -p dist",
+    "typecheck": "tsc --noEmit",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint src/**/*.ts"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "timing",
+    "time-tracking",
+    "project-management",
+    "api",
+    "typescript",
+    "ai",
+    "assistant",
+    "productivity"
+  ],
+  "author": {
+    "name": "a-und-b",
+    "email": "",
+    "url": ""
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/a-und-b/timing-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/a-und-b/timing-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/a-und-b/timing-mcp/issues"
+  },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.11.0",
+    "@modelcontextprotocol/sdk": "^1.17.1",
     "timing-api-client": "^0.1.5",
-    "zod": "^3.24.4"
+    "zod": "^3.25.76",
+    "zod-to-json-schema": "^3.23.5"
   },
   "devDependencies": {
-    "@types/node": "^22.15.3",
-    "nodemon": "^3.1.10",
-    "typescript": "^5.8.3"
+    "@types/node": "^24.2.0",
+    "esbuild": "^0.27.1",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
   }
 }
