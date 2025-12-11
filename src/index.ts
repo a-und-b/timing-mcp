@@ -43,6 +43,9 @@ import {
 import {
   generateReportTool
 } from './tools/reportsTools.js';
+import {
+  getGranularActivityTool
+} from './tools/localDbTools.js';
 
 // Import MCP prompts
 import { TIMING_PROMPTS, getTimingPromptByName } from './prompts/timingPrompts.js';
@@ -51,6 +54,8 @@ import { TIMING_PROMPTS, getTimingPromptByName } from './prompts/timingPrompts.j
  * Available MCP tools for Timing API access
  */
 const AVAILABLE_TOOLS = [
+  // Local Database
+  getGranularActivityTool,
   // Projects
   listProjectsTool,
   listProjectsHierarchyTool,
