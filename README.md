@@ -210,6 +210,14 @@ Use the `env` section in your MCP client configuration as shown above.
 
 ## 🛠️ Available Tools
 
+### Local Database
+> [!note]
+> This feature only works when the MCP server is running on the same machine as the Timing app (macOS).
+
+| Tool | Description | Parameters |
+|------|-------------|------------|
+| `timing_get_granular_app_activity` | Get granular usage (window titles, paths) from local DB | `from`, `to` (date strings or relative terms like 'today', 'yesterday'), `limit` |
+
 ### Projects
 
 | Tool | Description | Parameters |
@@ -298,6 +306,18 @@ The Timing MCP server provides 7 intelligent prompts that orchestrate multiple t
 ```
 
 ## 📝 Tool Examples
+
+### Get Granular Activity
+```json
+{
+  "name": "timing_get_granular_app_activity",
+  "arguments": {
+    "from": "yesterday",
+    "to": "today",
+    "limit": 10
+  }
+}
+```
 
 ### List Projects
 
@@ -476,6 +496,7 @@ echo '{"jsonrpc": "2.0", "id": 1, "method": "tools/list"}' | npx -y @a-und-b/tim
 
 ## 🌟 Features
 
+- **🖥️ Local Data Access:** Direct access to local SQLite database for granular activity data (window titles, file paths)
 - **✅ Full CRUD Support:** Create, read, update, and delete across projects and time entries
 - **🔄 Automatic Validation:** Input validation using Zod schemas
 - **📊 Comprehensive Reports:** Generate detailed reports with flexible filtering
