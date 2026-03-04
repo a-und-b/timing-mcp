@@ -233,7 +233,7 @@ Use the `env` section in your MCP client configuration as shown above.
 
 | Tool | Description | Parameters |
 |------|-------------|------------|
-| `timing_list_time_entries` | List time entries with filtering | `startDateMin`, `endDateMax`, `projects`, `searchQuery`, etc. |
+| `timing_list_time_entries` | List time entries with filtering | `startDateMin`, `startDateMax`, `projects`, `searchQuery`, etc. |
 | `timing_time_entry` | Get time entry details | `id` |
 | `timing_create_time_entry` | Create a new time entry | `project`, `title`, `startDate`, `endDate`, `notes`, `billingStatus` |
 | `timing_update_time_entry` | Update an existing time entry | `timeEntryId`, various optional fields |
@@ -351,7 +351,7 @@ The Timing MCP server provides 7 intelligent prompts that orchestrate multiple t
   "name": "timing_list_time_entries",
   "arguments": {
     "startDateMin": "2024-01-01T00:00:00+00:00",
-    "endDateMax": "2024-01-31T23:59:59+00:00",
+    "startDateMax": "2024-01-31T23:59:59+00:00",
     "includeProjectData": true
   }
 }

@@ -15,7 +15,7 @@ const BillingStatusEnum = z.enum(['billable', 'not_billable', 'billed', 'paid'])
 // Schema for list_time_entries tool
 const ListTimeEntriesSchema = z.object({
   startDateMin: z.string().optional().describe('Minimum start date (ISO 8601 format)'),
-  endDateMax: z.string().optional().describe('Maximum end date (ISO 8601 format)'),
+  startDateMax: z.string().optional().describe('Maximum start date (ISO 8601 format)'),
   projects: z.array(z.string()).optional().describe('Filter by project references'),
   includeChildProjects: z.boolean().optional().describe('Include child projects in filter'),
   searchQuery: z.string().optional().describe('Search query for time entry title/notes'),
@@ -84,14 +84,14 @@ export const listTimeEntriesTool = {
   handler: async (params: z.infer<typeof ListTimeEntriesSchema>): Promise<string> => {
     try {
       // Validate date range if both dates provided
-      if (params.startDateMin && params.endDateMax) {
-        validateDateRange(params.startDateMin, params.endDateMax);
+      if (params.startDateMin && params.startDateMax) {
+        validateDateRange(params.startDateMin, params.startDateMax);
       }
       
       const apiService = new TimingApiService();
       const response = await apiService.listTimeEntries({
         startDateMin: params.startDateMin,
-        endDateMax: params.endDateMax,
+        startDateMax: params.startDateMax,
         projects: params.projects,
         includeChildProjects: params.includeChildProjects,
         searchQuery: params.searchQuery,

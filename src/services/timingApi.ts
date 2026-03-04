@@ -128,7 +128,7 @@ export class TimingApiService {
    */
   async listTimeEntries(query?: {
     startDateMin?: string;
-    endDateMax?: string;
+    startDateMax?: string;
     projects?: string[];
     includeChildProjects?: boolean;
     searchQuery?: string;
