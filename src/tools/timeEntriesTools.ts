@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { zodToJsonSchema } from 'zod-to-json-schema';
 import { TimingApiService } from '../services/timingApi.js';
 import { formatTimingError } from '../utils/errorHandler.js';
-import { validateDateRange } from '../utils/dateUtils.js';
+import { validateDateRange, ensureFullISO } from '../utils/dateUtils.js';
 
 // Billing status enum
 const BillingStatusEnum = z.enum(['billable', 'not_billable', 'billed', 'paid']);
@@ -83,15 +83,19 @@ export const listTimeEntriesTool = {
   inputSchema: zodToJsonSchema(ListTimeEntriesSchema),
   handler: async (params: z.infer<typeof ListTimeEntriesSchema>): Promise<string> => {
     try {
+      // Ensure date params are full ISO 8601 with timezone (required for /time-entries)
+      const startDateMin = params.startDateMin ? ensureFullISO(params.startDateMin, 'start') : undefined;
+      const startDateMax = params.startDateMax ? ensureFullISO(params.startDateMax, 'end') : undefined;
+
       // Validate date range if both dates provided
-      if (params.startDateMin && params.startDateMax) {
-        validateDateRange(params.startDateMin, params.startDateMax);
+      if (startDateMin && startDateMax) {
+        validateDateRange(startDateMin, startDateMax);
       }
-      
+
       const apiService = new TimingApiService();
       const response = await apiService.listTimeEntries({
-        startDateMin: params.startDateMin,
-        startDateMax: params.startDateMax,
+        startDateMin,
+        startDateMax,
         projects: params.projects,
         includeChildProjects: params.includeChildProjects,
         searchQuery: params.searchQuery,

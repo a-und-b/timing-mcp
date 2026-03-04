@@ -13,12 +13,24 @@ import type { Project, TimeEntry, Team, Report, ApiResponse } from '../types/tim
  */
 export class TimingApiService {
   private readonly client: TimingClient;
-  
+
   constructor() {
     const config = getTimingConfig();
     this.client = new TimingClient({
       apiKey: config.apiKey,
     });
+
+    // Set X-Time-Zone header for correct date interpretation
+    // See: https://web.timingapp.com/docs/index.html#request-and-response-data
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const axiosInstance = (this.client as any).axiosInstance;
+      if (axiosInstance?.defaults?.headers) {
+        axiosInstance.defaults.headers.common['X-Time-Zone'] = config.timezone;
+      }
+    } catch {
+      // Silently ignore if axiosInstance is not accessible
+    }
   }
   
   /**
